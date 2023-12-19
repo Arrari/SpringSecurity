@@ -30,14 +30,16 @@ public class User implements UserDetails {
 
 
     private String password;
-    @Transient
-    private String passwordConfirm;
 
-    @ManyToMany
-    @JoinTable(name = "user_roles",
+    @ManyToMany(cascade =  CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
+
+    public User() {
+
+    }
 
     public User(String firstname, String lastname, String email, String username, String password, Collection<Role> roles) {
         this.firstname = firstname;
@@ -61,9 +63,6 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return username;
-    }
-    public String getPasswordConfirm() {
-        return passwordConfirm;
     }
 
 
