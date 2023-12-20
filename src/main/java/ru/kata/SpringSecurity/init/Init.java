@@ -2,8 +2,8 @@ package ru.kata.SpringSecurity.init;
 
 
 public class Init {
-//    private final UserService userService;
-//    private final RoleRepository roleRepository;
+//    private final UserServiceImpl userService;
+//    private final RoleService roleService;
 //
 //    @Autowired
 //    public Init(UserService us, RoleRepository rrep) {
