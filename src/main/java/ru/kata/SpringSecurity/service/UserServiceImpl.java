@@ -48,11 +48,14 @@ public class UserServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = Optional.ofNullable(userRepository.findByUsername(username));
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(String.format("User '%s' not found", username));
         }
-        return user.get();
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                mapRoles(user.getRoles()));
     }
     private Collection<? extends GrantedAuthority> mapRoles(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRolename())).collect(Collectors.toList());
