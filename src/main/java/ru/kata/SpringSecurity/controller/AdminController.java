@@ -1,13 +1,13 @@
 package ru.kata.SpringSecurity.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.kata.SpringSecurity.models.Role;
 import ru.kata.SpringSecurity.models.User;
 import ru.kata.SpringSecurity.service.RoleService;
@@ -40,23 +40,42 @@ public class AdminController {
         model.addAttribute("users", userList);
         model.addAttribute("authUser",authUser);
         model.addAttribute("allroles", roleService.getAllRoles());
-        return "admin-users-list";
+        return "admin-user-list";
     }
 
     @GetMapping("/new-user")
-    public String createBlankNewUser(Model model) {
-        model.addAttribute("user", new User());
-        model.addAttribute("allroles", roleService.getAllRoles());
-        return "admin-new-user";
+    public ModelAndView newUser() {
+        User user = new User();
+        ModelAndView mav = new ModelAndView("admin-new-user");
+        mav.addObject("user", user);
+        List<Role> roles = (List<Role>) roleService.getAllRoles();
+        mav.addObject("allRoles", roles);
+        return mav;
     }
 
     @PostMapping("/new-user")
-    public String addUserToDb(User user, @RequestParam("selectedRoles") Long[] selectedRoles) {
-        Set<Role> rolesById = Arrays.stream(selectedRoles)
-                .map(s -> roleService.getRoleById(s))
-                .collect(Collectors.toSet());;
-        user.setRoles(rolesById);
+    public String addUserToDb(@ModelAttribute("user") User user) {
         userService.add(user);
-        return "redirect:admin/";
+        return "redirect:/all";
     }
+    @GetMapping("/show-user/{id}")
+    public ModelAndView showUserDetails(@PathVariable long id) {
+        User user = userService.getById(id);
+        ModelAndView mav = new ModelAndView("admin-show-user");
+        mav.addObject("user", user);
+        List<Role> roles = (List<Role>) roleService.getAllRoles();
+        mav.addObject("allRoles", roles);
+        return mav;
+    }
+    @PostMapping("/show-user/admin/admin-update-user/{id}")
+    public String updateUser(User user) {
+        userService.add(user);
+        return "redirect:/admin/all";
+    }
+    @DeleteMapping("show-user/admin-user-delete/{id}")
+    public String deleteUser(@PathVariable("id") long id) {
+        userService.remove(id);
+        return "redirect:/admin/all";
+    }
+
 }

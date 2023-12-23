@@ -4,24 +4,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+import ru.kata.SpringSecurity.models.Role;
 import ru.kata.SpringSecurity.models.User;
+import ru.kata.SpringSecurity.service.RoleService;
+import ru.kata.SpringSecurity.service.UserService;
 import ru.kata.SpringSecurity.service.UserServiceImpl;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
-    private UserServiceImpl userService;
+    private UserService userService;
+    private RoleService roleService;
 
     @Autowired
     public void setUserService(UserServiceImpl userService) {
         this.userService = userService;
     }
+    @Autowired
+    public void setRoleService(RoleService roleService) {this.roleService = roleService;}
 
     @GetMapping("/authenticated")
-    public String pageForAuthenticatedUser(Principal principal) {
+    public ModelAndView pageForAuthenticatedUser(Principal principal) {
+        ModelAndView mav = new ModelAndView("user-show");
         User user = userService.findByUsername(principal.getName());
-        return "page for logged user: " + user.getUsername();
+        mav.addObject("user", user);
+        List<Role> roles = (List<Role>) roleService.getAllRoles();
+        mav.addObject("allRoles", roles);
+        return mav;
     }
 }

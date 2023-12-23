@@ -28,11 +28,10 @@ public class User implements UserDetails {
     @Column(name = "USERNAME", unique = true)
     private String username;
 
-
     private String password;
 
     @ManyToMany(cascade =  CascadeType.MERGE, fetch = FetchType.LAZY)
-    @JoinTable(name = "users_roles",
+    @JoinTable(name = "users_roles_linktable",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;

@@ -2,9 +2,80 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>New User Page</title>
 </head>
 <body>
 
+</body>
+</html><!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New User</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{/index}">Index</a></li>
+        <li class="breadcrumb-item active" aria-current="page">New User</li>
+    </ol>
+</nav>
+
+<div class="container-fluid">
+
+    <div class="panel panel-primary">
+        <h1 class="panel-title">
+            Form for creating new user
+        </h1>
+    </div>
+    <br>
+
+    <div class="panel-body">
+        <form class="form-inline" th:method="POST" th:action="@{/admin/new-user}" th:object="${user}">
+            <label class="sr-only" for="inlineFormInputName2">First name: </label>
+            <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" th:field="*{firstname}"
+                   placeholder="First Name">
+
+            <label class="sr-only" for="inlineFormInputName3">Last name:</label>
+            <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName3" th:field="*{lastname}"
+                   placeholder="Last Name">
+
+            <label class="sr-only" for="inlineFormInputName4">Email: </label>
+            <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName4" th:field="*{email}"
+                   placeholder="Email@domain.com">
+
+
+            <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
+            <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">@</div>
+                </div>
+                <input type="text" class="form-control" id="inlineFormInputGroupUsername2" th:field="*{username}"
+                       placeholder="userName">
+            </div>
+
+            <label class="sr-only" for="inlineForPassword">Password: </label>
+            <input type="text" class="form-control mb-2 mr-sm-2" id="inlineForPassword" th:field="*{password}"
+                   placeholder="password">
+
+            <p>
+            <div class="form-check form-check-inline">
+                <label>Roles:</label>
+                <input type="checkbox" name="roles"
+                       th:each="role : ${allRoles}"
+                       th:text="${role.rolename.replace('ROLE_', '')}"
+                       th:value="${role.id}"
+                       th:field="*{roles}"
+                />
+            </div>
+            </p>
+
+            <button type="submit" class="btn btn-primary mb-2">Submit</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>
