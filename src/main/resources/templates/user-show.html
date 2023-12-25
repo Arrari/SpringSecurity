@@ -8,6 +8,18 @@
 </head>
 
 <body>
+
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1"
+                  th:text="${user.getUsername()} + '  with role:  ' + ${user.getRoles()}">
+                User with role
+            </span>
+        <a class="btn btn-dark" aria-current="page" th:href="@{/logout}">Logout</a>
+    </div>
+</nav>
+<br>
+
 <form th:action="@{admin/admin-update-user/{id} (id=${user.getId()})}"
       th:object="${user}"
       th:method="POST">

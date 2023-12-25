@@ -14,13 +14,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
@@ -32,29 +33,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> allUsers() {
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     @Override
-    public void add(User user) {
+    @Transactional
+    public void addUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
     @Override
-    public void remove(long id) {
+    @Transactional
+    public void removeUserById(long id) {
         userRepository.deleteById(id);
     }
 
     @Override
-    public void edit(User user) {
+    @Transactional
+    public void editUser(User user) {
+        if (userRepository.findById(user.getId()) == null) {
+            throw new EntityNotFoundException("User not found! Nothing to edit!");
+        }
         userRepository.save(user);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public User getById(long id) {
+    public User getUserById(long id) {
         return userRepository.getById(id);
     }
 
@@ -63,7 +69,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         if (user == null) {

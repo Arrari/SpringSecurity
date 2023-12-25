@@ -28,7 +28,7 @@ public class UserController {
     public void setRoleService(RoleService roleService) {this.roleService = roleService;}
 
     @GetMapping("/authenticated")
-    public ModelAndView pageForAuthenticatedUser(Principal principal) {
+    public ModelAndView returnPageForAuthenticatedUser(Principal principal) {
         ModelAndView mav = new ModelAndView("user-show");
         User user = userService.findByUsername(principal.getName());
         mav.addObject("user", user);

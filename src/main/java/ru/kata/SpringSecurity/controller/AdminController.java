@@ -35,7 +35,7 @@ public class AdminController {
 
     @GetMapping(value = {"","/all"})
     public String showUsersList(Model model, Principal principal) {
-        List<User> userList = userService.allUsers();
+        List<User> userList = userService.getAllUsers();
         User authUser = userService.findByUsername(principal.getName());
         model.addAttribute("users", userList);
         model.addAttribute("authUser",authUser);
@@ -55,12 +55,12 @@ public class AdminController {
 
     @PostMapping("/new-user")
     public String addUserToDb(@ModelAttribute("user") User user) {
-        userService.add(user);
-        return "redirect:/all";
+        userService.addUser(user);
+        return "redirect:/admin/all";
     }
     @GetMapping("/show-user/{id}")
     public ModelAndView showUserDetails(@PathVariable long id) {
-        User user = userService.getById(id);
+        User user = userService.getUserById(id);
         ModelAndView mav = new ModelAndView("admin-show-user");
         mav.addObject("user", user);
         List<Role> roles = (List<Role>) roleService.getAllRoles();
@@ -69,12 +69,12 @@ public class AdminController {
     }
     @PostMapping("/show-user/admin/admin-update-user/{id}")
     public String updateUser(User user) {
-        userService.add(user);
+        userService.editUser(user);
         return "redirect:/admin/all";
     }
     @DeleteMapping("show-user/admin-user-delete/{id}")
     public String deleteUser(@PathVariable("id") long id) {
-        userService.remove(id);
+        userService.removeUserById(id);
         return "redirect:/admin/all";
     }
 
