@@ -49,8 +49,8 @@ public class DefaultUsersTableInitializer {
                 "admin",
                 adminRoleSet
         );
-        userService.add(userTestUser);
-        userService.add(adminTestUser);
+        userService.addUser(userTestUser);
+        userService.addUser(adminTestUser);
     }
 }
 
