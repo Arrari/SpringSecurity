@@ -44,7 +44,7 @@ public class AdminController {
     }
 
     @GetMapping("/new-user")
-    public ModelAndView newUser() {
+    public ModelAndView showNewBlankUser() {
         User user = new User();
         ModelAndView mav = new ModelAndView("admin-new-user");
         mav.addObject("user", user);
