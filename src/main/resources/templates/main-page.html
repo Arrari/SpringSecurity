@@ -21,6 +21,11 @@
     }
 
 
+
+
+
+
+
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
@@ -39,95 +44,137 @@
     </div>
 </nav>
 <br>
+<!-- Vertical tabs -->
+
 <div class="d-flex align-items-start">
-    <div class="col-1">
+    <div class="col-2">
         <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active" id="v-pills-admin-tab" data-bs-toggle="pill" href="#v-pills-admin" role="tab"
-               aria-controls="v-pills-admin" aria-selected="true">Admin</a>
-            <a class="nav-link" id="v-pills-user-tab" data-bs-toggle="pill" href="#v-pills-user" role="tab"
-               aria-controls="v-pills-user" aria-selected="false">User</a>
+            <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home"
+                    type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Home
+            </button>
+            <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile"
+                    type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile
+            </button>
         </div>
     </div>
-    <!-- Tabs-->
-    <div class="col">
-        <div class="tab-content bg-light" id="v-pills-tabContent">
-            <div class="tab-pane fade show active"
-                 id="v-pills-admin"
-                 role="tabpanel"
-                 aria-labelledby="v-pills-admin-tab">
-                <!-- Content for admin nav-tab -->
-                <div class="d-flex align-content-center flex-wrap">
-                    <h2><b>Admin panel</b></h2>
-                </div>
-                <!-- tabs -->
-                <ul class="nav nav-tabs" id="adminTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active"
-                           data-bs-toggle="tab"
-                           href="#admin">User List</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#newuser">New User</a>
-                    </li>
-                </ul>
-                <!-- User list Tab -->
-                <div class="tab-content">
-                    <div class="tab-pane fade show container active"
-                         id="admin"
-                         role="tabpanel"
-                         aria-labelledby="admin-tab">
-                        <table class="table table-striped table-hover caption-top">
-                            <caption>List of users</caption>
-                            <thead>
-                            <tr class="table-primary">
-                                <th>ID</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Roles</th>
-                                <th>Update</th>
-                                <th>Delete</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="user : ${users}">
-                                <td th:text="${user.getId()}">ID</td>
-                                <td th:text="${user.getUsername()}">UN</td>
-                                <td th:text="${user.getEmail()}">EM</td>
-                                <td>
-                                    <th:block th:each="r: ${user.getRoles()}"
-                                              th:text="${r.getRolename().replace('ROLE_', '')}+' '">Roles
-                                    </th:block>
-                                </td>
-                                <td><a th:href="@{show-user/{id} (id=${user.getId()})}"
-                                       class="btn btn-info active"
-                                       role="button" aria-pressed="true"
-                                       th:text="Edit user">Edit user</a></td>
-                                <td><a th:href="@{show-user/{id} (id=${user.getId()})}"
-                                       class="btn btn-danger active"
-                                       role="button" aria-pressed="true"
-                                       th:text="Edit user">Delete-user</a></td>
+    <div class="col-8">
+        <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                <div>
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
+                                    data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+                                    aria-selected="true">Home
+                            </button>
+                            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
+                                    data-bs-target="#nav-profile"
+                                    type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile
+                            </button>
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <!-- Table tab -->
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                             aria-labelledby="nav-home-tab">
+                            <div class="container-fluid">
+                                <table class="table table-bordered">
+                                    <caption>List of users</caption>
+                                    <thead>
+                                    <tr class="table-primary">
+                                        <th>ID</th>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Roles</th>
+                                        <th>Update</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="user : ${users}">
+                                        <td th:text="${user.getId()}">ID</td>
+                                        <td th:text="${user.getUsername()}">UN</td>
+                                        <td th:text="${user.getEmail()}">EM</td>
+                                        <td>
+                                            <th:block th:each="r: ${user.getRoles()}"
+                                                      th:text="${r.getRolename().replace('ROLE_', '')}+' '">Roles
+                                            </th:block>
+                                        </td>
+                                        <td><a th:href="@{show-user/{id} (id=${user.getId()})}"
+                                               class="btn btn-info active"
+                                               role="button"
+                                               data-bs-toggle="modal" data-bs-target="#modal1"
+                                               aria-pressed="true"
+                                               th:text="'Link to ' +${user.getUsername()} + '\'s page'">Update</a>
+                                        </td>
+                                        <td><a th:href="@{show-user/{id} (id=${user.getId()})}"
+                                               class="btn btn-danger active"
+                                               role="button"
+                                               data-bs-toggle="modal" data-bs-target="#modal2"
+                                               aria-pressed="true"
+                                               th:text="'Link to ' +${user.getUsername()} + '\'s page'">Delete</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- New User tab-->
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 
-                            </tr>
-                            </tbody>
-                        </table>
+                        </div>
                     </div>
-
-                    <div class="tab-pane container fade" id="menu1">...</div>
                 </div>
-
-
             </div>
-            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- modal 1 for update -->
+<div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modalLabel2" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel1">Update user</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
 </div>
 
-</body>
+<!-- modal 2 for deletion -->
+<div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="modal2" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle2">Delete user</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous">
 
 </script>
+</body>
 </html>
