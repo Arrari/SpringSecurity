@@ -31,9 +31,7 @@ public class UserController {
     public ModelAndView pageForAuthenticatedUser(Principal principal) {
         ModelAndView mav = new ModelAndView("user-show");
         User user = userService.findByUsername(principal.getName());
-        mav.addObject("user", user);
-        List<Role> roles = (List<Role>) roleService.getAllRoles();
-        mav.addObject("allRoles", roles);
+        mav.addObject("curUser", user);
         return mav;
     }
 }
