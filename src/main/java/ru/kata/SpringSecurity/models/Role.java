@@ -1,6 +1,7 @@
 package ru.kata.SpringSecurity.models;
 
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -28,10 +29,16 @@ public class Role implements GrantedAuthority {
         return rolename.replace("ROLE_", "");
     }
 
-
     @Override
     public String getAuthority() {
         return getRolename();
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getRolename() {
+        return rolename;
+    }
 }

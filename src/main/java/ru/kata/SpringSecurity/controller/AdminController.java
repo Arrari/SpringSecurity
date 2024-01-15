@@ -1,11 +1,8 @@
 package ru.kata.SpringSecurity.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.kata.SpringSecurity.models.Role;
@@ -14,11 +11,7 @@ import ru.kata.SpringSecurity.service.RoleService;
 import ru.kata.SpringSecurity.service.UserService;
 
 import java.security.Principal;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/admin")
@@ -35,7 +28,7 @@ public class AdminController {
 
     @GetMapping(value = {"","/all"})
     public String showUsersList(Model model, Principal principal) {
-        List<User> userList = userService.allUsers();
+        List<User> userList = userService.getAllUsers();
         User authUser = userService.findByUsername(principal.getName());
         model.addAttribute("users", userList);
         model.addAttribute("authUser",authUser);

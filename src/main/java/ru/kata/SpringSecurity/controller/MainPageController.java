@@ -28,7 +28,7 @@ public class MainPageController {
     ModelAndView showMainPage(Principal principal) {
         ModelAndView mav = new ModelAndView("main-page");
         User authUser = userService.findByUsername(principal.getName());
-        mav.addObject("allUsers", userService.allUsers());
+        mav.addObject("allUsers", userService.getAllUsers());
         mav.addObject("newUser", new User());
         mav.addObject("allRoles", roleService.getAllRoles());
         mav.addObject("curUser", authUser);
