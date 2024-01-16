@@ -30,6 +30,7 @@ public class DefaultUsersTableInitializer {
         Role adminTestRole = new Role("ROLE_ADMIN");
         roleService.addRole(userTestRole);
         roleService.addRole(adminTestRole);
+        roleService.addRole(new Role("ROLE_TESTROLE"));
 
         Set<Role> userRoleSet = Stream.of(userTestRole).collect(Collectors.toSet());
         Set<Role> adminRoleSet = Stream.of(adminTestRole).collect(Collectors.toSet());
